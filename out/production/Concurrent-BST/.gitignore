@@ -1,0 +1,6 @@
+.idea/
+*.iml
+build
+data-temp.cs*
+*.class
+~*
