@@ -1,6 +1,8 @@
 .idea/
+out
 *.iml
 build
 data-temp.cs*
 *.class
 ~*
+README.rst

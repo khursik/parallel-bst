@@ -1,114 +1,148 @@
 # Parallel BST algorithm performance results
-
+<!-- TOC -->
+* [Parallel BST algorithm performance results](#parallel-bst-algorithm-performance-results)
+  * [Results](#results)
+    * [1 thread](#1-thread)
+    * [2 threads](#2-threads)
+    * [3 threads](#3-threads)
+    * [4 threads](#4-threads)
+    * [Throughput table (depending on threads number and x)](#throughput-table-depending-on-threads-number-and-x)
+<!-- TOC -->
 ## Results
-### x = 0.5
-#### 1048576 keys
-input: **1 thread**, 1048576keys (1MB), x = 0.5 (30% inserts, 30% contains and 30% removes)
-```text
-BST-1thr-1048576keys-30i-30d
-1 experiments in total
-initnodes-508427-in1.5s[7reps]-BST-1thr-1048576keys-30i-30d | trial 0 : 20.0% done, elapsed 7s
-initnodes-506868-in1.2s[7reps]-BST-1thr-1048576keys-30i-30d | trial 1 : 40.0% done, elapsed 13s
-initnodes-507128-in1.2s[7reps]-BST-1thr-1048576keys-30i-30d | trial 2 : 60.0% done, elapsed 19s
-initnodes-507415-in1.2s[7reps]-BST-1thr-1048576keys-30i-30d | trial 3 : 80.0% done, elapsed 26s
-initnodes-507432-in1.2s[7reps]-BST-1thr-1048576keys-30i-30d | trial 4 : 100.0% done, elapsed 32s
-```
-input: **2 threads**, 1048576keys (1MB), x = 0.5 (30% inserts, 30% contains and 30% removes)
-```text
-BST-2thr-1048576keys-30i-30d
-1 experiments in total
-initnodes-508395-in1.3s[7reps]-BST-2thr-1048576keys-30i-30d | trial 0 : 20.0% done, elapsed 6s
-initnodes-507029-in1.2s[7reps]-BST-2thr-1048576keys-30i-30d | trial 1 : 40.0% done, elapsed 13s
-initnodes-507729-in1.2s[7reps]-BST-2thr-1048576keys-30i-30d | trial 2 : 60.0% done, elapsed 19s
-initnodes-507914-in1.3s[7reps]-BST-2thr-1048576keys-30i-30d | trial 3 : 80.0% done, elapsed 26s
-initnodes-507588-in1.2s[7reps]-BST-2thr-1048576keys-30i-30d | trial 4 : 100.0% done, elapsed 32s
-```
-input: **3 threads**, 1048576keys (1MB), x = 0.5 (30% inserts, 30% contains and 30% removes)
-```text
-BST-3thr-1048576keys-30i-30d
-1 experiments in total
-initnodes-508705-in1.4s[7reps]-BST-3thr-1048576keys-30i-30d | trial 0 : 20.0% done, elapsed 7s
-initnodes-507916-in1.2s[7reps]-BST-3thr-1048576keys-30i-30d | trial 1 : 40.0% done, elapsed 13s
-initnodes-507671-in1.3s[7reps]-BST-3thr-1048576keys-30i-30d | trial 2 : 60.0% done, elapsed 20s
-initnodes-508150-in1.4s[7reps]-BST-3thr-1048576keys-30i-30d | trial 3 : 80.0% done, elapsed 26s
-initnodes-507517-in1.5s[7reps]-BST-3thr-1048576keys-30i-30d | trial 4 : 100.0% done, elapsed 33s
-```
-input: **4 threads**, 1048576keys (1MB), x = 0.5 (30% inserts, 30% contains and 30% removes)
-```text
-BST-4thr-1048576keys-30i-30d
-1 experiments in total
-initnodes-508426-in1.3s[7reps]-BST-4thr-1048576keys-30i-30d | trial 0 : 20.0% done, elapsed 6s
-initnodes-507847-in1.2s[7reps]-BST-4thr-1048576keys-30i-30d | trial 1 : 40.0% done, elapsed 13s
-initnodes-506195-in0.9s[7reps]-BST-4thr-1048576keys-30i-30d | trial 2 : 60.0% done, elapsed 19s
-initnodes-507022-in1.3s[7reps]-BST-4thr-1048576keys-30i-30d | trial 3 : 80.0% done, elapsed 25s
-initnodes-506651-in1.3s[7reps]-BST-4thr-1048576keys-30i-30d | trial 4 : 100.0% done, elapsed 32s
-```
-#### 100000 keys
-input: **1 thread**, 100000 keys, x = 0.5 (30% inserts, 30% contains and 30% removes)
-```text
-BST-1thr-100000keys-30i-30d
-1 experiments in total
-initnodes-48419-in170.8ms[8reps]-BST-1thr-100000keys-30i-30d XXXXXXXXX trial 0 : 20.0% done, elapsed 5s
-initnodes-48052-in80.2ms[7reps]-BST-1thr-100000keys-30i-30d XXXXXXXXX trial 1 : 40.0% done, elapsed 10s
-initnodes-47978-in75.2ms[7reps]-BST-1thr-100000keys-30i-30d XXXXXXXXX trial 2 : 60.0% done, elapsed 15s
-initnodes-48362-in73.2ms[7reps]-BST-1thr-100000keys-30i-30d XXXXXXXXX trial 3 : 80.0% done, elapsed 21s
-initnodes-48202-in77.7ms[7reps]-BST-1thr-100000keys-30i-30d XXXXXXXXX trial 4 : 100.0% done, elapsed 26s
-```
-input: **2 threads**, 100000 keys, x = 0.5 (30% inserts, 30% contains and 30% removes)
-```text
-BST-2thr-100000keys-30i-30d
-1 experiments in total
-initnodes-48546-in202.0ms[8reps]-BST-2thr-100000keys-30i-30d | trial 0 : 20.0% done, elapsed 5s
-initnodes-48180-in71.7ms[7reps]-BST-2thr-100000keys-30i-30d | trial 1 : 40.0% done, elapsed 10s
-initnodes-48125-in91.5ms[7reps]-BST-2thr-100000keys-30i-30d | trial 2 : 60.0% done, elapsed 15s
-initnodes-47523-in60.8ms[6reps]-BST-2thr-100000keys-30i-30d | trial 3 : 80.0% done, elapsed 21s
-initnodes-48066-in86.9ms[7reps]-BST-2thr-100000keys-30i-30d | trial 4 : 100.0% done, elapsed 26s
-```
-input: **3 threads**, 100000 keys, x = 0.5 (30% inserts, 30% contains and 30% removes)
-```text
-BST-3thr-100000keys-30i-30d
-1 experiments in total
-initnodes-47770-in127.4ms[7reps]-BST-3thr-100000keys-30i-30d | trial 0 : 20.0% done, elapsed 5s
-initnodes-48179-in93.4ms[7reps]-BST-3thr-100000keys-30i-30d | trial 1 : 40.0% done, elapsed 10s
-initnodes-48264-in72.5ms[7reps]-BST-3thr-100000keys-30i-30d | trial 2 : 60.0% done, elapsed 15s
-initnodes-48498-in66.7ms[7reps]-BST-3thr-100000keys-30i-30d | trial 3 : 80.0% done, elapsed 21s
-initnodes-48095-in72.0ms[7reps]-BST-3thr-100000keys-30i-30d | trial 4 : 100.0% done, elapsed 26s
-```
-input: **4 threads**, 100000 keys, x = 0.5 (30% inserts, 30% contains and 30% removes)
-```text
-BST-4thr-100000keys-30i-30d
-1 experiments in total
-initnodes-47926-in131.0ms[7reps]-BST-4thr-100000keys-30i-30d XXXXXXXXX trial 0 : 20.0% done, elapsed 5s
-initnodes-48244-in67.7ms[7reps]-BST-4thr-100000keys-30i-30d XXXXXXXXX trial 1 : 40.0% done, elapsed 10s
-initnodes-48264-in59.2ms[7reps]-BST-4thr-100000keys-30i-30d XXXXXXXXX trial 2 : 60.0% done, elapsed 15s
-initnodes-48180-in69.7ms[7reps]-BST-4thr-100000keys-30i-30d XXXXXXXXX trial 3 : 80.0% done, elapsed 21s
-initnodes-48000-in67.5ms[7reps]-BST-4thr-100000keys-30i-30d XXXXXXXXX trial 4 : 100.0% done, elapsed 26s
-```
-### 10^4 keys
 
+### 1 thread
 
-
-
-```text
-BST-1thr-100000keys-10i-0d
-1 experiments in total
-initnodes-96130-in585.3ms[9reps]-BST-1thr-100000keys-10i-0d  |  trial 0 : 20.0% done, elapsed 6s
-initnodes-95608-in146.3ms[7reps]-BST-1thr-100000keys-10i-0d  |  trial 1 : 40.0% done, elapsed 11s       422,7 / ms
-initnodes-95383-in140.6ms[7reps]-BST-1thr-100000keys-10i-0d  |  trial 2 : 60.0% done, elapsed 16s
-initnodes-96379-in127.3ms[7reps]-BST-1thr-100000keys-10i-0d  |  trial 3 : 80.0% done, elapsed 21s
-initnodes-96104-in136.6ms[7reps]-BST-1thr-100000keys-10i-0d  |  trial 4 : 100.0% done, elapsed 26s
-```
-```text
-BST-4thr-100000keys-10i-0d
-1 experiments in total
-initnodes-96000-in179.6ms[7reps]-BST-4thr-100000keys-10i-0d  |  trial 0 : 20.0% done, elapsed 5s
-initnodes-96600-in342.3ms[9reps]-BST-4thr-100000keys-10i-0d  |  trial 1 : 40.0% done, elapsed 11s       837,4 / ms
-initnodes-96762-in287.9ms[8reps]-BST-4thr-100000keys-10i-0d  |  trial 2 : 60.0% done, elapsed 16s
-initnodes-96036-in141.7ms[7reps]-BST-4thr-100000keys-10i-0d  |  trial 3 : 80.0% done, elapsed 21s
-initnodes-96429-in102.0ms[7reps]-BST-4thr-100000keys-10i-0d  |  trial 4 : 100.0% done, elapsed 26s
-
+```txt
+BST-1thr-100000keys-50i-50d
+trial,nthreads,threadops,maxkey,ratio,seed,time,gcTime,throughput
+0,1,17885452,100000,50i-50d,87289449,5.005123917,0.069,3573428
+1,1,17819556,100000,50i-50d,-317187778,5.004868333,0.072,3560444
+2,1,13416044,100000,50i-50d,-1875431663,5.001644458,0.067,2682326
+3,1,13725501,100000,50i-50d,2068021648,5.002441166,0.051,2743760
+4,1,19988170,100000,50i-50d,-2111251899,5.003110375,0.072,3995148
 ```
 
+```txt
+BST-1thr-100000keys-10i-10d
+trial,nthreads,threadops,maxkey,ratio,seed,time,gcTime,throughput
+0,1,21722937,100000,10i-10d,87289449,5.00318125,0.035,4341824
+1,1,14376055,100000,10i-10d,-317187778,5.000447042,0.032,2874953
+2,1,20231823,100000,10i-10d,-1875431663,5.005065458,0.106,4042269
+3,1,23603779,100000,10i-10d,2068021648,5.004373916,0.051,4716629
+4,1,21523206,100000,10i-10d,-2111251899,5.004428084,0.036,4300832
+```
 
+```txt
+BST-1thr-100000keys-0i-0d
+trial,nthreads,threadops,maxkey,ratio,seed,time,gcTime,throughput
+0,1,30224104,100000,0i-0d,87289449,5.00506275,0.015,6038706
+1,1,28287479,100000,0i-0d,-317187778,5.005025875,0.019,5651814
+2,1,30474728,100000,0i-0d,-1875431663,5.001046584,0.025,6093670
+3,1,32183261,100000,0i-0d,2068021648,5.001097208,0.021,6435240
+4,1,30186449,100000,0i-0d,-2111251899,5.001661959,0.016,6035283
+```
 
+### 2 threads
+
+```txt
+BST-2thr-100000keys-0i-0d
+trial,nthreads,threadops,maxkey,ratio,seed,time,gcTime,throughput
+0,2,53376242,100000,0i-0d,164028911,5.005075417,0.015,10664423
+1,2,51903802,100000,0i-0d,437536661,5.004368625,0.025,10371698
+2,2,56725963,100000,0i-0d,957336908,5.005100375,0.029,11333631
+3,2,55061374,100000,0i-0d,-584359285,5.000121416,0.018,11012007
+4,2,53441680,100000,0i-0d,-245860332,5.005046667,0.026,10677558
+```
+
+```txt
+BST-2thr-100000keys-10i-10d
+trial,nthreads,threadops,maxkey,ratio,seed,time,gcTime,throughput
+0,2,41234402,100000,10i-10d,980979522,5.001661834,0.068,8244140
+1,2,41348220,100000,10i-10d,1093045833,5.004022791,0.067,8262995
+2,2,38896249,100000,10i-10d,1552489441,5.003987625,0.067,7773050
+3,2,41933618,100000,10i-10d,1558946349,5.005123084,0.06,8378139
+4,2,44881130,100000,10i-10d,1911863281,5.00505825,0.068,8967154
+```
+
+```txt
+BST-2thr-100000keys-50i-50d
+name,trial,nthreads,threadops,maxkey,ratio,seed,time,gcTime,throughput
+ | ,0,2,33395782,100000,50i-50d,164028911,5.003066542,0.123,6675062
+ | ,1,2,35988543,100000,50i-50d,437536661,5.000456417,0.111,7197051
+ | ,2,2,34480163,100000,50i-50d,957336908,5.005108375,0.128,6888994
+ | ,3,2,37803646,100000,50i-50d,1971867210,5.004965959,0.131,7553227
+ | ,4,2,34877608,100000,50i-50d,-490431680,5.00263325,0.122,6971849
+```
+
+### 3 threads
+
+```txt
+BST-3thr-100000keys-50i-50d
+trial,nthreads,threadops,maxkey,ratio,seed,time,gcTime,throughput
+0,3,46784138,100000,50i-50d,-2034752376,5.000389959,0.149,9356097
+1,3,52360332,100000,50i-50d,1260781960,5.005064875,0.145,10461469
+2,3,49118992,100000,50i-50d,347268536,5.000432,0.153,9822949
+3,3,50100863,100000,50i-50d,287764282,5.002781041,0.144,10014602
+4,3,53173837,100000,50i-50d,-1696482539,5.001720792,0.147,10631108
+```
+
+```txt
+BST-3thr-100000keys-10i-10d
+trial,nthreads,threadops,maxkey,ratio,seed,time,gcTime,throughput
+0,3,57864905,100000,10i-10d,749929950,5.004585041,0.094,11562378
+1,3,57347847,100000,10i-10d,2012070576,5.003024166,0.089,11462636
+2,3,58694075,100000,10i-10d,347268536,5.002192875,0.087,11733668
+3,3,55502814,100000,10i-10d,287764282,5.006566875,0.083,11086002
+4,3,61345851,100000,10i-10d,1628129307,5.002579083,0.079,12262844
+```
+
+```txt
+BST-3thr-100000keys-0i-0d
+trial,nthreads,threadops,maxkey,ratio,seed,time,gcTime,throughput
+0,3,74144292,100000,0i-0d,376184651,5.003577,0.027,14818257
+1,3,69311314,100000,0i-0d,563941419,5.000836708,0.028,13859943
+2,3,73412928,100000,0i-0d,-242750326,5.004911541,0.029,14668176
+3,3,77821231,100000,0i-0d,-168773598,5.005378708,0.015,15547521
+4,3,80577572,100000,0i-0d,623291694,5.00119425,0.026,16111666
+```
+
+### 4 threads
+```txt
+BST-4thr-100000keys-0i-0d
+trial,nthreads,threadops,maxkey,ratio,seed,time,gcTime,throughput
+0,4,85760609,100000,0i-0d,-1653172601,5.003322834,0.034,17140730
+1,4,89042396,100000,0i-0d,1455446772,5.001261958,0.025,17803985
+2,4,88453566,100000,0i-0d,2086859617,5.003792792,0.034,17677303
+3,4,95520542,100000,0i-0d,-530318036,5.005035709,0.019,19084887
+4,4,88476880,100000,0i-0d,-1506099610,5.005547667,0.033,17675764
+```
+
+```txt
+BST-4thr-100000keys-10i-10d
+trial,nthreads,threadops,maxkey,ratio,seed,time,gcTime,throughput
+0,4,61031849,100000,10i-10d,1980793271,5.008534958,0.11,12185569
+1,4,68216419,100000,10i-10d,1109935775,5.003773875,0.088,13632993
+2,4,67478663,100000,10i-10d,1552489441,5.00549125,0.078,13480927
+3,4,65298025,100000,10i-10d,-825099181,5.001317083,0.078,13056165
+4,4,67184554,100000,10i-10d,-1011963268,5.003191542,0.081,13428339
+
+```
+
+```txt
+BST-4thr-100000keys-50i-50d
+trial,nthreads,threadops,maxkey,ratio,seed,time,gcTime,throughput
+0,4,55283510,100000,50i-50d,-1150341661,5.005119459,0.187,11045392
+1,4,52942624,100000,50i-50d,1109935775,5.004748333,0.163,10578478
+2,4,53245557,100000,50i-50d,-1640543778,5.006629625,0.154,10635010
+3,4,52514328,100000,50i-50d,-615861987,5.008777292,0.166,10484460
+4,4,50488051,100000,50i-50d,-340624205,5.006393416,0.154,10084715
+```
+
+### Throughput table (depending on threads number and x)
+
+| x \ threads | 1       | 2        | 3        | 4        | tps multiplier<br/>(4 vs 1 threads) |
+|-------------|---------|----------|----------|----------|-------------------------------------|
+| **0**       | 6050943 | 10811863 | 15001113 | 17876532 | 2.954                               |
+| **0.1**     | 4055301 | 8325097  | 11621506 | 13156799 | 3.244                               |
+| **0.5**     | 3311021 | 7057237  | 10057245 | 10565611 | 3.191                               |
 

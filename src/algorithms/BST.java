@@ -4,7 +4,7 @@ import main.BSTInterface;
 
 public class BST implements BSTInterface {
 
-    static class Node {
+    public static class Node {
         public final int key; // key is immutable
         public volatile Node left;
         public volatile Node right;
@@ -222,9 +222,8 @@ public class BST implements BSTInterface {
                         if (isSentinelNode(curr.right)) {
                             removeAndReplaceWithLeaf(toRemove, pair);
                         } else {
-                            removeWithNonLeafSucessor(toRemove, pair);
+                            removeWithNonLeafSuccessor(toRemove, pair);
                         }
-
                         return;
                     }
                 }
@@ -232,7 +231,7 @@ public class BST implements BSTInterface {
         }
     }
 
-    private void removeWithNonLeafSucessor(NodePair toRemove, NodePair succ) {
+    private void removeWithNonLeafSuccessor(NodePair toRemove, NodePair succ) {
         while (true) {
             NodePair pair = findSuccessor(succ.current);
             Node pred = pair.parent;
@@ -267,6 +266,10 @@ public class BST implements BSTInterface {
         replacementLeaf.current.left = toRemove.current.left;
         toRemove.parent.setChild(replacementLeaf.current, toRemove.isRight);
         replacementLeaf.parent.setChild(sentinel, replacementLeaf.isRight);
+    }
+
+    public Node getRoot() {
+        return head.right;
     }
 
     public String getName() {

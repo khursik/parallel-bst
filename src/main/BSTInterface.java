@@ -19,6 +19,8 @@
 
 package main;
 
+import algorithms.BST;
+
 public interface BSTInterface {
     public boolean contains(final int key);
 
@@ -31,4 +33,6 @@ public interface BSTInterface {
     public String getName();
 
     public long getKeysum();
+
+    public BST.Node getRoot();
 }

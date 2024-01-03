@@ -19,7 +19,6 @@
 
 package main;
 
-import main.*;
 import algorithms.*;
 
 import java.io.*;
@@ -41,21 +40,25 @@ public class Main {
     private long startFreemem = 0;
 
     // variables for the experiment
-    protected int nthreads;
-    protected int ntrials;
-    protected double nseconds;
-    protected String filename;
-    protected Ratio ratio;
-    protected String alg;
-    protected SwitchMap switches;
-    protected boolean prefill;
+    protected final int nthreads;
+    protected final int ntrials;
+    protected final double nseconds;
+    protected final String filename;
+    protected final Ratio ratio;
+    protected final String alg;
+    protected final SwitchMap switches;
+    protected final boolean prefill;
+    private final boolean validate;
 
     // some timing variables
     protected AtomicLong startUserTime = new AtomicLong(0);
     protected AtomicLong startWallTime = new AtomicLong(0);
 
+    protected List<Integer> resultArr = new ArrayList<>();
+    protected int i = 0;
+
     public Main(int nthreads, int ntrials, double nseconds, String filename,
-                Ratio ratio, SwitchMap switches, boolean prefill) {
+                Ratio ratio, SwitchMap switches, boolean prefill, boolean validate) {
         this.nthreads = nthreads;
         this.ntrials = ntrials;
         this.nseconds = nseconds;
@@ -64,6 +67,7 @@ public class Main {
         this.alg = "BST";
         this.switches = switches;
         this.prefill = prefill;
+        this.validate = validate;
     }
 
     public final class RandomGenerator {
@@ -102,18 +106,6 @@ public class Main {
         public abstract long getEndTime();
 
         public abstract long getStartTime();
-
-        public abstract long getMyStartCPUTime();
-
-        public abstract long getMyStartUserTime();
-
-        public abstract long getMyStartWallTime();
-
-        public abstract long getUserTime();
-
-        public abstract long getWallTime();
-
-        public abstract long getCPUTime();
 
         public abstract long getKeysum();
     }
@@ -173,14 +165,13 @@ public class Main {
                 System.out.println("THREAD CPU TIME DISABLED");
                 System.exit(-1);
             }
-            id = java.lang.Thread.currentThread().getId();
+            id = Thread.currentThread().threadId();
 
             // everyone waits on barrier
             if (start != null) try {
                 start.await();
             } catch (Exception e) {
-                e.printStackTrace();
-                System.exit(-1);
+                throw new RuntimeException(e);
             }
 
             // everyone waits until main thread sets experiment state to RUNNING
@@ -322,8 +313,7 @@ public class Main {
             try {
                 start.await();
             } catch (Exception ex) {
-                ex.printStackTrace();
-                System.exit(-1);
+                throw new RuntimeException(ex);
             }
 
             for (int i = 0; i < opsToPerform && !done.b; i++) {
@@ -338,8 +328,7 @@ public class Main {
             try {
                 end.await();
             } catch (Exception ex) {
-                ex.printStackTrace();
-                System.exit(-1);
+                throw new RuntimeException(ex);
             }
         }
 
@@ -378,8 +367,7 @@ public class Main {
         try {
             Thread.sleep((long) (nseconds * 1e3));
         } catch (InterruptedException ex1) {
-            ex1.printStackTrace();
-            System.exit(-1);
+            throw new RuntimeException(ex1);
         }
         long localEndTime = System.nanoTime();
         ex.state = ExperimentState.STOPPED;
@@ -387,8 +375,7 @@ public class Main {
         try {
             for (int i = 0; i < ex.nprocs; i++) workers.get(i).join();
         } catch (InterruptedException e) {
-            e.printStackTrace();
-            System.exit(-1);
+            throw new RuntimeException(e);
         }
         final long gcTimeEnd = totalGarbageCollectionTimeMillis();
 
@@ -466,7 +453,7 @@ public class Main {
 
         @Override
         public String toString() {
-            return "" + (int) (100 * ins) + "i-" + (int) (100 * del) + "d";
+            return (int) (100 * ins) + "i-" + (int) (100 * del) + "d";
         }
     }
 
@@ -494,7 +481,7 @@ public class Main {
     }
 
     public static class SwitchMap {
-        private TreeMap<String, Double> backingMap;
+        private final TreeMap<String, Double> backingMap;
 
         public SwitchMap() {
             backingMap = new TreeMap<String, Double>();
@@ -514,13 +501,13 @@ public class Main {
         }
 
         public String toString() {
-            String s = "";
+            StringBuilder s = new StringBuilder();
             boolean first = true;
             for (Entry<String, Double> e : backingMap.entrySet()) {
-                s += (first ? "" : " ") + e.getKey() + "=" + e.getValue();
+                s.append(first ? "" : " ").append(e.getKey()).append("=").append(e.getValue());
                 first = false;
             }
-            return s;
+            return s.toString();
         }
     }
 
@@ -562,17 +549,6 @@ public class Main {
         }
     }
 
-    public class Pair<A, B> {
-        public final A first;
-        public final B second;
-
-        public Pair(A first, B second) {
-            super();
-            this.first = first;
-            this.second = second;
-        }
-    }
-
     SizeKeysumPair fillToSteadyState(
             final java.util.Random rand,
             final BSTInterface tree,
@@ -597,6 +573,7 @@ public class Main {
         int numOperations = 0; // number of operations to perform per thread in each iteration (up to MAX_REPS iterations)
 
         numThreads = Math.min(48, Runtime.getRuntime().availableProcessors() / 2);
+//        numThreads = 1;
         numOperations = 10 + maxkey / (2 * numThreads);
 
 
@@ -618,8 +595,7 @@ public class Main {
             try {
                 end.await();
             } catch (Exception ex) {
-                ex.printStackTrace();
-                System.exit(-1);
+                throw new RuntimeException(ex);
             }
             treeSize = tree.size();
             for (int i = 0; i < numThreads; i++) {
@@ -649,8 +625,7 @@ public class Main {
                 try {
                     out = new PrintStream(new File(filename));
                 } catch (Exception e) {
-                    e.printStackTrace();
-                    System.exit(-1);
+                    throw new RuntimeException(e);
                 }
             }
         }
@@ -658,8 +633,7 @@ public class Main {
         try {
             stdout = new DualPrintStream(filename + "_stdout");
         } catch (Exception e) {
-            e.printStackTrace();
-            System.exit(-1);
+            throw new RuntimeException(e);
         }
 
         out.print("name,trial,nthreads,threadops,maxkey,ratio,seed,time,gcTime,throughput");
@@ -682,6 +656,7 @@ public class Main {
             System.out.println(" free memory: " + startFreemem);
         }
 
+        BST.Node root = null;
         java.util.Random rng = new java.util.Random((int) switches.get("seed"));
         for (Experiment ex : exp) {
             int experimentSeed = rng.nextInt();
@@ -694,7 +669,41 @@ public class Main {
                 if (!runTrial(out, false, trial + 1 == ntrials, tree.getName() + "," + trial, p, experimentRng, tree, ex))
                     System.exit(-1);
                 progress(stdout, tree, ++nCompleted, trial, tree.getName(), startTime, numberOfRuns, ex);
+                root = tree.getRoot();
             }
+        }
+        if (validate) {
+            traverseInOrder(root);
+            writeResultArrayToFile(filename, resultArr);
+            validateResultTree();
+        }
+    }
+
+    void traverseInOrder(BST.Node node) {
+        if (node != null) {
+            traverseInOrder(node.left);
+            resultArr.add(i++, node.key);
+            traverseInOrder(node.right);
+        }
+    }
+
+    void writeResultArrayToFile(String filename, List<Integer> array) {
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(filename, true))) {
+            bw.append("Result arr: ").append("\n");
+            for (int value : array) {
+                bw.append(String.valueOf(value)).append(" ");
+            }
+            bw.append("\n");
+        } catch (IOException ex) {
+            throw new RuntimeException(ex);
+        }
+    }
+
+    void validateResultTree() {
+        int curVal = Integer.MIN_VALUE;
+        for (Integer key : resultArr) {
+            assert key >= curVal : "Expected greater than or equal to key";
+            curVal = key;
         }
     }
 
@@ -736,6 +745,7 @@ public class Main {
         double nseconds = 0;
         String filename = null;
         boolean prefill = false;
+        boolean validate = false;
 
         SwitchMap switches = new SwitchMap();
         switches.put("seed", (double) Globals.DEFAULT_SEED);
@@ -764,19 +774,19 @@ public class Main {
 
         int totalOpPercent = 0;
 
-        for (int i = 0; i < args.length; i++) {
-            if (args[i].startsWith("-")) {
-                if (args[i].matches("-seed[0-9]+")) {
+        for (String arg : args) {
+            if (arg.startsWith("-")) {
+                if (arg.matches("-seed[0-9]+")) {
                     try {
-                        switches.put("seed", (double) Integer.parseInt(args[i].substring("-seed".length())));
+                        switches.put("seed", (double) Integer.parseInt(arg.substring("-seed".length())));
                     } catch (Exception ex) {
                         System.out.println("Seed must be a 32-bit signed integer.");
                         System.exit(-1);
                     }
-                } else if (args[i].matches("-ins[0-9]+(\\.[0-9]+){0,1}")) {
+                } else if (arg.matches("-ins[0-9]+(\\.[0-9]+){0,1}")) {
                     try {
-                        switches.put("ratio-ins", Double.parseDouble(args[i].substring(4, args[i].length())));
-                        totalOpPercent += switches.get("ratio-ins");
+                        switches.put("ratio-ins", Double.parseDouble(arg.substring(4)));
+                        totalOpPercent += (int) switches.get("ratio-ins");
                         if (switches.get("ratio-ins") < 0) {
                             System.out.println("The insert percentage must be >= 0");
                             System.exit(-1);
@@ -785,10 +795,10 @@ public class Main {
                         System.out.println("The insert percentage must be a 32-bit integer.");
                         System.exit(-1);
                     }
-                } else if (args[i].matches("-del[0-9]+(\\.[0-9]+){0,1}")) {
+                } else if (arg.matches("-del[0-9]+(\\.[0-9]+){0,1}")) {
                     try {
-                        switches.put("ratio-del", Double.parseDouble(args[i].substring(4, args[i].length())));
-                        totalOpPercent += switches.get("ratio-del");
+                        switches.put("ratio-del", Double.parseDouble(arg.substring(4)));
+                        totalOpPercent += (int) switches.get("ratio-del");
                         if (switches.get("ratio-del") < 0) {
                             System.out.println("The delete percentage must be >= 0");
                             System.exit(-1);
@@ -797,9 +807,11 @@ public class Main {
                         System.out.println("The delete percentage must be a 32-bit integer.");
                         System.exit(-1);
                     }
-                } else if (args[i].matches("-keys[0-9]+")) {
+                } else if (arg.matches("-validate")) {
+                    validate = true;
+                } else if (arg.matches("-keys[0-9]+")) {
                     try {
-                        switches.put("keyRange", (double) Integer.parseInt(args[i].substring(5, args[i].length())));
+                        switches.put("keyRange", (double) Integer.parseInt(arg.substring(5)));
                         if (switches.get("keyRange") < 1) {
                             System.out.println("The key range must be > 0");
                             System.exit(-1);
@@ -808,12 +820,12 @@ public class Main {
                         System.out.println("The key range must be a 32-bit integer.");
                         System.exit(-1);
                     }
-                } else if (args[i].startsWith("-file-")) {
-                    filename = args[i].substring("-file-".length());
-                } else if (args[i].matches("-prefill")) {
+                } else if (arg.startsWith("-file-")) {
+                    filename = arg.substring("-file-".length());
+                } else if (arg.matches("-prefill")) {
                     prefill = true;
                 } else {
-                    System.out.println("Unrecognized command-line switch: \"" + args[i] + "\"");
+                    System.out.println("Unrecognized command-line switch: \"" + arg + "\"");
                     System.exit(-1);
                 }
             }
@@ -826,7 +838,7 @@ public class Main {
 
         (new Main(nthreads, ntrials, nseconds, filename,
                 new Ratio(switches.get("ratio-ins") / 100., switches.get("ratio-del") / 100.),
-                switches, prefill)).run(output);
+                switches, prefill, validate)).run(output);
     }
 
     public static void main(String[] args) throws Exception {
